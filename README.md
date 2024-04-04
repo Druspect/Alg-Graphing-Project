@@ -16,3 +16,5 @@ i have both parts in this file and the first one will produce specific output fi
 
 
 Like i said this was just me messing around with the problems not finalizing the answers for real. the document that i started working on the report is also included for your reference! 
+
+by Matthew Fuller 4/4/2024
