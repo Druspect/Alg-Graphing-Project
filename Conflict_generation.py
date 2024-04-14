@@ -38,12 +38,12 @@ def generate_custom(graph, E):
     pass
 
 def generate_uniform_cycle(graph, E):
-    added_edges = set()
+    # Generates a cycle graph with uniform distribution
     if (E != graph.V):
         print ('ERROR: Cycle max number of edges must be: ', graph.V, ' not ', E)
         E = graph.V
         print('E set to: ', E)
-    # Generages a cycle graph with uniform distribution
+
     for i in range(graph.V):
         startNode, destNode = -1, -1  # initialization
         if (i == graph.V - 1):  # this is the last node, wrap around to start
@@ -51,7 +51,20 @@ def generate_uniform_cycle(graph, E):
         else:  # This is a non-terminal node, so just connect to adjacent node
             startNode, destNode = i, i + 1
         graph.add_edge(startNode, destNode)
-        added_edges.add((startNode, destNode))
+
+def generate_uniform_complete(graph, E):
+    # Generates a complete graph with uniform distribution
+    expectedEdgeCount = (graph.V * (graph.V - 1) / 2)
+    expectedEdgeCount = int(expectedEdgeCount)
+
+    if(E != expectedEdgeCount):
+        print ('ERROR: Complete graph must have ', expectedEdgeCount, 'edges not ', E, ' edges')
+        E = expectedEdgeCount
+        print('E set to: ', E)
+    for i in range(graph.V):
+        for j in range(graph.V):
+            if(j != i):
+                graph.add_edge(i, j)
 
 def save_graph_to_file(graph, filename):
     with open(filename, 'w') as file:
@@ -71,11 +84,18 @@ def main(V, E, G, DIST):
     elif G == 'CYCLE':
         if DIST == 'UNIFORM':
             generate_uniform_cycle(graph, E)
+
+    elif G == 'COMPLETE':
+        if DIST == 'UNIFORM':
+            generate_uniform_complete(graph, E)
+
     graph.print_graph()
 
 # Example Usage
 # main(V=10, E=20, G='RANDOM', DIST='UNIFORM')
-main(V=10, E=10, G='CYCLE', DIST='UNIFORM')
 
 # Cycle testing
+# main(V=10, E=10, G='CYCLE', DIST='UNIFORM')
 
+# Complete testing
+main(V=10, E=10, G='COMPLETE', DIST='UNIFORM')
