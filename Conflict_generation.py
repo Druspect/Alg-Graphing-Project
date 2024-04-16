@@ -37,6 +37,35 @@ def generate_custom(graph, E):
     # Implement your custom distribution here. This is just a placeholder.
     pass
 
+def generate_cycle_graph(graph, E):
+    # Generates a cycle graph
+    if (E != graph.V):
+        print ('ERROR: Cycle max number of edges must be: ', graph.V, ' not ', E)
+        E = graph.V
+        print('E set to: ', E)
+
+    for i in range(graph.V):
+        startNode, destNode = -1, -1  # initialization
+        if (i == graph.V - 1):  # this is the last node, wrap around to start
+            startNode, destNode = i, 0
+        else:  # This is a non-terminal node, so just connect to adjacent node
+            startNode, destNode = i, i + 1
+        graph.add_edge(startNode, destNode)
+
+def generate_complete_graph (graph, E):
+    # Generates a complete graph
+    expectedEdgeCount = (graph.V * (graph.V - 1) / 2)
+    expectedEdgeCount = int(expectedEdgeCount)
+
+    if(E != expectedEdgeCount):
+        print ('ERROR: Complete graph must have ', expectedEdgeCount, 'edges not ', E, ' edges')
+        E = expectedEdgeCount
+        print('E set to: ', E)
+    for i in range(graph.V):
+        for j in range(graph.V):
+            if(j != i):
+                graph.add_edge(i, j)
+
 def save_graph_to_file(graph, filename):
     with open(filename, 'w') as file:
         for u in range(graph.V):
@@ -52,9 +81,23 @@ def main(V, E, G, DIST):
         elif DIST == 'YOURS':
             generate_custom(graph, E)
     # Implementations for COMPLETE or CYCLE graphs can be added here
-    save_graph_to_file(graph, "output_graph.txt")
+    elif G == 'CYCLE':
+        if DIST == 'UNIFORM':  # Must be uniform
+            generate_cycle_graph(graph, E)
+
+    elif G == 'COMPLETE':
+        if DIST == 'UNIFORM':  # Must be uniform
+            generate_complete_graph(graph, E)
+
     graph.print_graph()
+    save_graph_to_file(graph, "output_complete_graph.txt")
 
 # Example Usage
-main(V=10, E=20, G='RANDOM', DIST='UNIFORM')
+# main(V=10, E=20, G='RANDOM', DIST='UNIFORM')
+
+# Cycle testing
+# main(V=10, E=10, G='CYCLE', DIST='UNIFORM')
+
+# Complete testing
+main(V=10, E=10, G='COMPLETE', DIST='UNIFORM')
 
