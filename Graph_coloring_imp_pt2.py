@@ -69,7 +69,8 @@ class GraphColoring:
         for i, color in enumerate(self.colors):
             print(f"Vertex {i}: Color {color}")
 
-    def process_graph(self):
+    def process_graph(self, filename):
+        print(f"\nProcessing file: {filename}")
         orderings = [
             (self.smallest_last_ordering, "Smallest Last Ordering"),
             (self.smallest_original_degree_last, "Smallest Original Degree Last"),
@@ -78,21 +79,21 @@ class GraphColoring:
             (self.degree_of_saturation_ordering, "Degree of Saturation Ordering"),
         ]
         for method, name in orderings:
-            start_time = time.perf_counter()  # Use perf_counter for higher resolution timing
+            start_time = time.perf_counter()
             print(f"\n{name}:")
             self.color_graph(method())
             self.print_coloring_results()
-            elapsed_time = time.perf_counter() - start_time  # Calculate elapsed time
-            elapsed_time_microseconds = elapsed_time * 1_000_000  # Convert to microseconds
+            elapsed_time = time.perf_counter() - start_time
+            elapsed_time_microseconds = elapsed_time * 1_000_000
             print(f"Elapsed Time: {elapsed_time_microseconds:.2f} microseconds")
             print(f"Total Colors Used: {max(self.colors) + 1}")
-            self.colors = [-1] * self.V  # Reset for the next ordering
-
+            self.colors = [-1] * self.V
 
 def main():
-    filename = input("Enter the filename of the graph: ")
-    graph_coloring = GraphColoring(filename)
-    graph_coloring.process_graph()
+    filenames = ["output_complete_graph.txt", "output_random_uniform.txt", "output_cycle_graph.txt"]
+    for filename in filenames:
+        graph_coloring = GraphColoring(filename)
+        graph_coloring.process_graph(filename)
 
 if __name__ == "__main__":
     main()
