@@ -33,71 +33,42 @@ def generate_skewed(graph, E):
             added_edges.add((u, v))
             E -= 1
 
-def generate_custom(graph, E):
-    # Implement your custom distribution here. This is just a placeholder.
-    pass
-
-def generate_cycle_graph(graph, E):
+def generate_cycle_graph(graph):
     # Generates a cycle graph
-    if (E != graph.V):
-        print ('ERROR: Cycle max number of edges must be: ', graph.V, ' not ', E)
-        E = graph.V
-        print('E set to: ', E)
-
     for i in range(graph.V):
-        startNode, destNode = -1, -1  # initialization
         if (i == graph.V - 1):  # this is the last node, wrap around to start
-            startNode, destNode = i, 0
+            graph.add_edge(i, 0)
         else:  # This is a non-terminal node, so just connect to adjacent node
-            startNode, destNode = i, i + 1
-        graph.add_edge(startNode, destNode)
+            graph.add_edge(i, i + 1)
 
-def generate_complete_graph (graph, E):
+def generate_complete_graph(graph):
     # Generates a complete graph
-    expectedEdgeCount = (graph.V * (graph.V - 1) / 2)
-    expectedEdgeCount = int(expectedEdgeCount)
-
-    if(E != expectedEdgeCount):
-        print ('ERROR: Complete graph must have ', expectedEdgeCount, 'edges not ', E, ' edges')
-        E = expectedEdgeCount
-        print('E set to: ', E)
     for i in range(graph.V):
-        for j in range(graph.V):
-            if(j != i):
-                graph.add_edge(i, j)
+        for j in range(i + 1, graph.V):
+            graph.add_edge(i, j)
 
 def save_graph_to_file(graph, filename):
     with open(filename, 'w') as file:
         for u in range(graph.V):
             file.write(f"{u}: {' '.join(map(str, graph.graph[u]))}\n")
 
-def main(V, E, G, DIST):
+def main(V, G, filename, DIST='UNIFORM'):
     graph = Graph(V)
     if G == 'RANDOM':
         if DIST == 'UNIFORM':
-            generate_uniform(graph, E)
+            generate_uniform(graph, int(V*(V-1)/4))  # Example for medium density
         elif DIST == 'SKEWED':
-            generate_skewed(graph, E)
-        elif DIST == 'YOURS':
-            generate_custom(graph, E)
-    # Implementations for COMPLETE or CYCLE graphs can be added here
+            generate_skewed(graph, int(V*(V-1)/4))  # Example for medium density
     elif G == 'CYCLE':
-        if DIST == 'UNIFORM':  # Must be uniform
-            generate_cycle_graph(graph, E)
-
+        generate_cycle_graph(graph)
     elif G == 'COMPLETE':
-        if DIST == 'UNIFORM':  # Must be uniform
-            generate_complete_graph(graph, E)
-
+        generate_complete_graph(graph)
+    
     graph.print_graph()
-    save_graph_to_file(graph, "output_complete_graph.txt")
+    save_graph_to_file(graph, filename)
 
 # Example Usage
-# main(V=10, E=20, G='RANDOM', DIST='UNIFORM')
-
-# Cycle testing
-# main(V=10, E=10, G='CYCLE', DIST='UNIFORM')
-
-# Complete testing
-main(V=10, E=10, G='COMPLETE', DIST='UNIFORM')
+main(V=10, G='RANDOM', filename="output_random_uniform.txt")
+main(V=10, G='CYCLE', filename="output_cycle_graph.txt")
+main(V=10, G='COMPLETE', filename="output_complete_graph.txt")
 
