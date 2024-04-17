@@ -18,3 +18,11 @@ i have both parts in this file and the first one will produce specific output fi
 Like i said this was just me messing around with the problems not finalizing the answers for real. the document that i started working on the report is also included for your reference! 
 
 by Matthew Fuller 4/4/2024
+
+Update
+
+Hello!
+After James great job combining the three distribution into one confilct file, i have removed the unnessecary files that are cluttering up the workspace!
+
+Thanks,
+Matthew 4/17/2024
