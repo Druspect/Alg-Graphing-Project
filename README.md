@@ -26,3 +26,9 @@ After James great job combining the three distribution into one confilct file, i
 
 Thanks,
 Matthew 4/17/2024
+
+
+Processor Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz 2.90 GHz Installed RAM 32.0 GB (31.7 GB usable) System type 64-bit operating system, x64-based processor Edition Windows 10 Enterprise Version 22H2
+
+
+update, sorry this was in the hpc growth repo. 4/29/2024 
